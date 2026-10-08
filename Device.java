@@ -30,4 +30,9 @@ public abstract class Device {
     public double getPurchasePrice() {
         return this.purchasePrice;
     }
+
+    // Lấy năm đưa vào sử dụng
+    public int getCommissioningYear() {
+        return this.getCommissioningYear();
+    }
 }
