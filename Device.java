@@ -1,3 +1,5 @@
+import java.time.LocalDate;
+
 public abstract class Device {
     private String deviceId;
     private String deviceName;
@@ -7,6 +9,19 @@ public abstract class Device {
 
     // Constructor
     public Device(String deviceId, String deviceName, int commissioningYear, double purchasePrice, DeviceStatus status) {
+        if (deviceId.isEmpty()) {
+            throw new IllegalArgumentException("Mã thiết bị không được rỗng");
+        }
+
+        if (purchasePrice <= 0) {
+            throw new IllegalArgumentException("Giá mua phải lớn hơn 0");
+        }
+
+        int currentYear = LocalDate.now().getYear();
+        if (commissioningYear > currentYear) {
+            throw new IllegalArgumentException("Năm đưa vào sử dụng không được lớn hơn năm hiện tại");
+        }
+
         this.deviceId = deviceId;
         this.deviceName = deviceName;
         this.commissioningYear = commissioningYear;
