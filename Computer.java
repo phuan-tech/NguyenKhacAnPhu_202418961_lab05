@@ -5,20 +5,32 @@ public class Computer extends Device implements INetworkable {
     private String processorType;
     private boolean hasDiscreteGpu;
     private String ipAddress;
-    private boolean connected;
+    private boolean connected = false;
 
     // 2 constructor
     public Computer(String deviceId, String deviceName, int commissioningYear, double purchasePrice, DeviceStatus status, 
-    int ramCapacity, String processorType, boolean hasDiscreteGpu) {
+    int ramCapacity, String processorType, boolean hasDiscreteGpu, String ipAddress) {
         super(deviceId, deviceName, commissioningYear, purchasePrice, status);
+
+        // Kiểm tra dung lượng ram
+        if (ramCapacity <= 0) {
+            throw new IllegalArgumentException("Dung lượng ram phải lớn hơn 0");
+        }
+
+        // Kiểm tra địa chỉ IP
+        if (ipAddress == null || ipAddress.isBlank()) {
+            throw new IllegalArgumentException("Địa chỉ IP không được rỗng");
+        }
+
         this.ramCapacity = ramCapacity;
         this.processorType = processorType;
         this.hasDiscreteGpu = hasDiscreteGpu;
+        this.ipAddress = ipAddress;
     }
 
     public Computer(String deviceId, String deviceName, int commissioningYear, double purchasePrice, DeviceStatus status, 
-    int ramCapacity, String processorType) {
-        this(deviceId, deviceName, commissioningYear, purchasePrice, status, ramCapacity, processorType, false);
+    int ramCapacity, String processorType, String ipAddress) {
+        this(deviceId, deviceName, commissioningYear, purchasePrice, status, ramCapacity, processorType, false, ipAddress);
     }
 
     // Tính chi phí bảo trì
@@ -58,12 +70,14 @@ public class Computer extends Device implements INetworkable {
     // Kết nối
     @Override 
     public void connect(String ipAddress) {
-        if (ipAddress.isEmpty()) {
+        System.out.println("Đang kết nối ...");
+
+        if (ipAddress == null || ipAddress.isBlank()) {
             throw new IllegalArgumentException("Địa chỉ IP không được rỗng");
         }
 
         if (this.connected) {
-            throw new IllegalStateException("Thiết bị đã kết nối");
+            throw new IllegalStateException("Thiết bị đã kết nối, không thể thực hiện yêu cầu");
         }
 
         this.ipAddress = ipAddress;
@@ -75,7 +89,7 @@ public class Computer extends Device implements INetworkable {
     @Override 
     public void disconnect() {
         if (!this.connected) {
-            throw new IllegalStateException("Thiết bị hiện tại chưa kết nối");
+            throw new IllegalStateException("Thiết bị hiện tại chưa kết nối, không thể thực hiện yêu cầu");
         }
         this.connected = false;
         this.ipAddress = null;

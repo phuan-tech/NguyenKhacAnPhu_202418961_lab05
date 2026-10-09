@@ -9,14 +9,17 @@ public abstract class Device {
 
     // Constructor
     public Device(String deviceId, String deviceName, int commissioningYear, double purchasePrice, DeviceStatus status) {
-        if (deviceId.isEmpty()) {
+        // Kiểm tra mã thiết bị
+        if (deviceId == null || deviceId.isBlank()) {
             throw new IllegalArgumentException("Mã thiết bị không được rỗng");
         }
 
+        // Kiểm tra giá mua
         if (purchasePrice <= 0) {
             throw new IllegalArgumentException("Giá mua phải lớn hơn 0");
         }
 
+        // Kiểm tra năm đưa vào sử dụng
         int currentYear = LocalDate.now().getYear();
         if (commissioningYear > currentYear) {
             throw new IllegalArgumentException("Năm đưa vào sử dụng không được lớn hơn năm hiện tại");
@@ -49,5 +52,15 @@ public abstract class Device {
     // Lấy năm đưa vào sử dụng
     public int getCommissioningYear() {
         return this.getCommissioningYear();
+    }
+
+    // Lấy mã thiết bị
+    public String getDeviceId() {
+        return this.deviceId;
+    }
+
+    // Lấy trạng thái hoạt động
+    public DeviceStatus getDeviceStatus() {
+        return this.status;
     }
 }
