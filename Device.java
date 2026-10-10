@@ -51,7 +51,7 @@ public abstract class Device {
 
     // Lấy năm đưa vào sử dụng
     public int getCommissioningYear() {
-        return this.getCommissioningYear();
+        return this.commissioningYear;
     }
 
     // Lấy mã thiết bị

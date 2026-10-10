@@ -16,7 +16,7 @@ public class LabRoom {
         }
 
         // Kiểm tra tên phòng
-        if (roomId == null || roomId.isBlank()) {
+        if (roomName == null || roomName.isBlank()) {
             throw new IllegalArgumentException("Tên phòng không hợp lệ");
         }
 
