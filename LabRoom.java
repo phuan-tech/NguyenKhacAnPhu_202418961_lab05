@@ -35,8 +35,11 @@ public class LabRoom {
 
     // Thêm thiết bị
     public void addDevice(Device device) {
+        if (device == null) {
+            throw new IllegalArgumentException("Thiết bị không hợp lệ");
+        }
         for (Device dev : this.devices) {
-            if (dev.getDeviceId() == device.getDeviceId()) {
+            if (dev.getDeviceId().equals(device.getDeviceId())) {
                 throw new IllegalArgumentException("Mã thiết bị đã tồn tại");
             }
         }

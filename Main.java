@@ -21,6 +21,14 @@ public class Main {
                                           8, 
                                           "Apple M2", 
                                           "192.168.1.102");
+        Computer computerA = new Computer("PC002",
+                                          "Acer Nitro 5", 
+                                          2020, 
+                                          20_000_000, 
+                                          DeviceStatus.ACTIVE, 
+                                          16, 
+                                          "Intel Core i5-10300H", 
+                                          "192.168.1.102");
         
         System.out.println("------Khởi tạo Computer với những điều kiện không hợp lệ------");
         // Khởi tạo Computer có dung lượng ram <= 0 hoặc địa chỉ IP rỗng
@@ -148,21 +156,19 @@ public class Main {
         
 
         // Thêm thiết bị vào phòng
-        System.out.println("\n------Thêm thiết bị vào phòng thực hành 1------");
+        System.out.println("\n------Thêm thiết bị vào phòng thực hành------");
         labRoom1.addDevice(computer1);
         labRoom1.addDevice(projector);
         labRoom1.addDevice(printer2);
-        System.out.print(labRoom1.findDevice("PC001").displayInfo());
-        System.out.println("\n-------------------------------------------");
-        System.out.print(labRoom1.findDevice("PR002").displayInfo());
-        System.out.println("\n-------------------------------------------");
-        System.out.print(labRoom1.findDevice("PJ001").displayInfo());
-        System.out.println();
+        labRoom1.addDevice(computer2);
+        labRoom2.addDevice(computerA);
+        labRoom2.addDevice(printer1);
+        labRoom2.addDevice(networkPrinter);
 
         // Thêm thiết bị trùng mã 
         System.out.println("------Thêm thiết bị trùng mã------");
         try {
-            labRoom1.addDevice(computer1);
+            labRoom1.addDevice(computerA);
             System.out.println("Thêm thiết bị thành công");
         } catch (IllegalArgumentException e) {
             System.out.println("Lỗi! Không thể thêm thiết bị trùng mã");
@@ -170,8 +176,14 @@ public class Main {
 
         // In danh sách các thiết bị trong phòng
         System.out.println("------Các thiết bị trong labRoom1------");
-        List<Device> devices = labRoom1.getDevices();
-        for (Device device : devices) {
+        List<Device> devices1 = labRoom1.getDevices();
+        for (Device device : devices1) {
+            System.out.print(device.displayInfo());
+            System.out.println("\n----------------------------");
+        }
+        System.out.println("------Các thiết bị trong labRoom2------");
+        List<Device> devices2 = labRoom2.getDevices();
+        for (Device device : devices2) {
             System.out.print(device.displayInfo());
             System.out.println("\n----------------------------");
         }
@@ -179,12 +191,19 @@ public class Main {
         // Tính tổng chi phí bảo trì dự kiến của mỗi phòng
         System.out.println("------Chi phí bảo trì dự kiến của labRoom1------");
         System.out.printf("Chi phí bảo trì dự kiến là: %.2f VNĐ%n", labRoom1.calculateAnnualMaintenanceCost());
+        System.out.println("------Chi phí bảo trì dự kiến của labRoom2------");
+        System.out.printf("Chi phí bảo trì dự kiến là: %.2f VNĐ%n", labRoom2.calculateAnnualMaintenanceCost());
 
         // Liệt kê các thiết bị cần bảo trì
         System.out.println("------Liệt kê các thiết bị cần bảo trì trong labRoom1------");
-        labRoom1.addDevice(computer2);
-        List<Device> devicesRequiringMaintenance = labRoom1.getDevicesRequiringMaintenance();
-        for (Device device : devicesRequiringMaintenance) {
+        List<Device> devicesRequiringMaintenance1 = labRoom1.getDevicesRequiringMaintenance();
+        for (Device device : devicesRequiringMaintenance1) {
+            System.out.print(device.displayInfo());
+            System.out.println("\n----------------------------");
+        }
+        System.out.println("------Liệt kê các thiết bị cần bảo trì trong labRoom2------");
+        List<Device> devicesRequiringMaintenance2 = labRoom1.getDevicesRequiringMaintenance();
+        for (Device device : devicesRequiringMaintenance2) {
             System.out.print(device.displayInfo());
             System.out.println("\n----------------------------");
         }
@@ -195,6 +214,17 @@ public class Main {
         computer1.connect("192.168.1.102");
         System.out.println("Kết nối mạng cho networkPrinter");
         networkPrinter.connect("192.168.1.101");
+        System.out.println("------Kiểm tra khi kết nối computer1 trong khi đã kết nối------");
+        try {
+            computer1.connect("1.1.1.1");
+        } catch (IllegalStateException e) {
+            System.out.printf("Lỗi!" + e.getMessage());
+            System.out.println();
+        }
+        System.out.println("Ngắt kết nối computer1");
+        computer1.disconnect();
+        System.out.println("Ngắt kết nối networkPrinter");
+        networkPrinter.disconnect();
 
         // Duyệt các thiết bị mạng thông qua INetworkable
         System.out.println("------Duyệt các thiết bị mạng------");
