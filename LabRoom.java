@@ -1,3 +1,5 @@
+// Nguyễn Khắc An Phú 202418961
+
 import java.util.List;
 import java.util.ArrayList;
 import java.time.LocalDate;
@@ -91,5 +93,10 @@ public class LabRoom {
         }
         
         return devicesRequiringMaintenance;
+    }
+
+    // Lấy danh sách thiết bị trong phòng
+    public List<Device> getDevices() {
+        return this.devices;
     }
 }

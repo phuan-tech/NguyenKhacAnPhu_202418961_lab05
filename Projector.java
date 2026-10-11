@@ -1,3 +1,4 @@
+// Nguyễn Khắc An Phú 202418961
 public class Projector extends Device {
     public int brightness;
     public double lampHoursUsed;
@@ -33,7 +34,7 @@ public class Projector extends Device {
     // Thông tin thiết bị
     @Override 
     public String displayInfo() {
-        return this.displayInfo()
+        return super.displayInfo()
                 + "\nĐộ sáng: " + this.brightness
                 + "\nSố giờ đã sử dụng bóng đèn: " + this.lampHoursUsed;
     }

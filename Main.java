@@ -1,3 +1,7 @@
+// Nguyễn Khắc An Phú 202418961
+
+import java.util.List;
+
 public class Main {
     public static void main (String[] args) {
         Computer computer1 = new Computer("PC001",
@@ -17,6 +21,37 @@ public class Main {
                                           8, 
                                           "Apple M2", 
                                           "192.168.1.102");
+        
+        System.out.println("------Khởi tạo Computer với những điều kiện không hợp lệ------");
+        // Khởi tạo Computer có dung lượng ram <= 0 hoặc địa chỉ IP rỗng
+        try {
+            Computer computer3 = new Computer("PC003",
+                                          "MacBook Air M2", 
+                                          2023, 
+                                          22_000_000, 
+                                          DeviceStatus.UNDER_MAINTENANCE, 
+                                          -10, 
+                                          "Apple M2", 
+                                          "192.168.1.102");
+            System.out.println("Đã khởi tạo computer3 thành công");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Khởi tạo computer3 không thành công");
+        }
+
+        // Năm đưa vào sử dụng lớn hơn năm hiện tại
+        try {
+            Computer computer = new Computer("PC003",
+                                            "MacBook Air M2", 
+                                            2030, 
+                                            22_000_000, 
+                                            DeviceStatus.UNDER_MAINTENANCE, 
+                                            10, 
+                                            "Apple M2", 
+                                            "");
+            System.out.println("Khởi tạo thiết bị thành công");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Khởi tạo thiết bị không thành công, năm đưa vào sử dụng không được lớn hơn năm hiện tại");
+        }
 
         Printer printer1 = new Printer("PR001",
                                        "HP LaserJet Pro", 
@@ -33,6 +68,23 @@ public class Main {
                                        PrinterType.INKJET, 
                                        25000, 
                                        true);
+
+        System.out.println("------Khởi tạo Printer với những điều kiện không hợp lệ------");
+        // Khởi tạo printer3 với số trang đã in âm                               
+        try {
+            Printer printer3 = new Printer("PR003",
+                                       "Canon PIXMA G3010", 
+                                       2024, 
+                                       4_500_000, 
+                                       DeviceStatus.ACTIVE, 
+                                       PrinterType.INKJET, 
+                                       -100, 
+                                       true);
+            
+            System.out.println("Khởi tạo thiết bị thành công");                           
+        } catch (IllegalArgumentException e) {
+            System.out.println("Không thể khởi tạo thiết bị vì không hợp lệ");
+        }                               
 
         NetworkPrinter networkPrinter = new NetworkPrinter("NPR001",
                                                             "HP LaserJet Pro M404dn", 
@@ -51,8 +103,30 @@ public class Main {
                                             3600, 
                                             3500.5);
 
+        System.out.println("------Khởi tạo Projector với những điều kiện không hợp lệ------");                                    
+        try {
+            Projector projector1 = new Projector("PJ002", 
+                                            "Epson EB-X06", 
+                                            2023, 
+                                            12_000_000, 
+                                            DeviceStatus.ACTIVE, 
+                                            -1000, 
+                                            3500.5);
+            System.out.println("Khởi tạo thiết bị thành công");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Lỗi! Khởi tạo thiết bị không thành công");
+        }
+
         LabRoom labRoom1 = new LabRoom("LR001", "Phòng thực hành 1", 30);
         LabRoom labRoom2 = new LabRoom("LR002", "Phòng thực hành 2", 50);
+
+        System.out.println("------Khởi tạo LabRoom với những điều kiện không hợp lệ------");
+        try {
+            LabRoom labRoom3 = new LabRoom("", "Phòng thực hành 3", 50);
+            System.out.println("Khởi tạo phòng thực hành thành công");
+        } catch (Exception e) {
+            System.out.println("Lỗi! Không thể khởi tạo ");
+        }    
 
         // Tính chi phí bảo trì Computer
         System.out.print("------Tính chi phí bảo trì Computer------");
@@ -74,9 +148,83 @@ public class Main {
         
 
         // Thêm thiết bị vào phòng
-        System.out.print("\n------Thêm thiết bị vào phòng thực hành 1------\n");
+        System.out.println("\n------Thêm thiết bị vào phòng thực hành 1------");
         labRoom1.addDevice(computer1);
+        labRoom1.addDevice(projector);
+        labRoom1.addDevice(printer2);
         System.out.print(labRoom1.findDevice("PC001").displayInfo());
+        System.out.println("\n-------------------------------------------");
+        System.out.print(labRoom1.findDevice("PR002").displayInfo());
+        System.out.println("\n-------------------------------------------");
+        System.out.print(labRoom1.findDevice("PJ001").displayInfo());
+        System.out.println();
 
+        // Thêm thiết bị trùng mã 
+        System.out.println("------Thêm thiết bị trùng mã------");
+        try {
+            labRoom1.addDevice(computer1);
+            System.out.println("Thêm thiết bị thành công");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Lỗi! Không thể thêm thiết bị trùng mã");
+        }
+
+        // In danh sách các thiết bị trong phòng
+        System.out.println("------Các thiết bị trong labRoom1------");
+        List<Device> devices = labRoom1.getDevices();
+        for (Device device : devices) {
+            System.out.print(device.displayInfo());
+            System.out.println("\n----------------------------");
+        }
+
+        // Tính tổng chi phí bảo trì dự kiến của mỗi phòng
+        System.out.println("------Chi phí bảo trì dự kiến của labRoom1------");
+        System.out.printf("Chi phí bảo trì dự kiến là: %.2f VNĐ%n", labRoom1.calculateAnnualMaintenanceCost());
+
+        // Liệt kê các thiết bị cần bảo trì
+        System.out.println("------Liệt kê các thiết bị cần bảo trì trong labRoom1------");
+        labRoom1.addDevice(computer2);
+        List<Device> devicesRequiringMaintenance = labRoom1.getDevicesRequiringMaintenance();
+        for (Device device : devicesRequiringMaintenance) {
+            System.out.print(device.displayInfo());
+            System.out.println("\n----------------------------");
+        }
+
+        // Kết nối mạng cho các đối tượng thực thi INetworkable
+        System.out.println("------Kết nối mạng------");
+        System.out.println("Kết nối mạng cho computer1");
+        computer1.connect("192.168.1.102");
+        System.out.println("Kết nối mạng cho networkPrinter");
+        networkPrinter.connect("192.168.1.101");
+
+        // Duyệt các thiết bị mạng thông qua INetworkable
+        System.out.println("------Duyệt các thiết bị mạng------");
+        // Đưa các thiết bị mạng vào danh sách kiểu INetworkable
+        INetworkable[] networkDevices = {
+            computer1,
+            computer2,
+            networkPrinter
+        };
+
+        // Duyệt các thiết bị mạng
+        for (INetworkable device : networkDevices) {
+            try {
+                device.connect("192.168.1.110");
+
+                System.out.println("Kết nối thành công!");
+                System.out.println("IP: " + device.getIpAddress());
+                System.out.println("Trạng thái: " + device.isConnected());
+
+                device.disconnect();
+
+                System.out.println("Sau khi ngắt kết nối:");
+                System.out.println("IP: " + device.getIpAddress());
+                System.out.println("Trạng thái: " + device.isConnected());
+
+            } catch (IllegalArgumentException | IllegalStateException e) {
+                System.out.println("Lỗi: " + e.getMessage());
+            }
+
+            System.out.println("----------------------");
+        }
     }
 }

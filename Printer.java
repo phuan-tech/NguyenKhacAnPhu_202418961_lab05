@@ -1,3 +1,5 @@
+// Nguyễn Khắc An Phú 202418961
+
 public class Printer extends Device {
     private PrinterType printerType;
     private int pagesPrinted;
@@ -39,7 +41,7 @@ public class Printer extends Device {
     // Thông tin thiết bị
     @Override 
     public String displayInfo() {
-        return this.displayInfo()
+        return super.displayInfo()
                 + "\nLoại máy in: " + this.printerType
                 + "\nSố trang đã in: " + this.pagesPrinted
                 + "\nMáy in màu: " + this.isColorPrinter;

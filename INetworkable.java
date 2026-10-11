@@ -1,3 +1,4 @@
+// Nguyễn Khắc An Phú 202418961
 public interface INetworkable {
     // Lấy địa chỉ IP
     String getIpAddress();

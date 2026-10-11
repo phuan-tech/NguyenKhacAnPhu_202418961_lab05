@@ -1,3 +1,5 @@
+// Nguyễn Khắc An Phú 202418961
+
 public class NetworkPrinter extends Printer implements INetworkable {
     private String ipAddress;
     private boolean connected;
@@ -18,13 +20,11 @@ public class NetworkPrinter extends Printer implements INetworkable {
     }
 
     // Lấy địa chỉ IP
-    @Override 
     public String getIpAddress() {
         return this.ipAddress;
     }
 
     // Kết nối
-    @Override 
     public void connect(String ipAddress) {
         System.out.println("Đang kết nối ...");
 
@@ -41,8 +41,7 @@ public class NetworkPrinter extends Printer implements INetworkable {
         System.out.println("Kết nối thành công");
     }
 
-    // Ngắt kết nối
-    @Override 
+    // Ngắt kết nối 
     public void disconnect() {
         if (!this.connected) {
             throw new IllegalStateException("Thiết bị hiện tại chưa kết nối");
@@ -52,7 +51,6 @@ public class NetworkPrinter extends Printer implements INetworkable {
     }
 
     // Kiểm tra kết nối
-    @Override 
     public boolean isConnected() {
         return this.connected;
     }
